@@ -1,0 +1,275 @@
+% Bibliography of key references for "LaTeX for Thesis and Large Documents"
+% For use with BibTeX
+
+% Original PBM paper
+@article{pbm,
+  title={From cooperative scans to predictive buffer management},
+  author={{\'S}witakowski, Micha{\l} and Boncz, Peter and {\.Z}ukowski, Marcin},
+  journal={arXiv preprint arXiv:1208.4170},
+  year={2012}
+}
+
+@inproceedings{coopScans,
+  title={Cooperative scans: dynamic bandwidth sharing in a DBMS},
+  author={Zukowski, Marcin and H{\'e}man, S{\'a}ndor and Nes, Niels and Boncz, Peter},
+  booktitle={Proceedings of the 33rd international conference on Very large data bases},
+  pages={723--734},
+  year={2007}
+}
+
+% Optimal cache replacement algorithm, assuming full knowledge of future accesses
+@article{beladyMIN,
+  title={A study of replacement algorithms for a virtual-storage computer},
+  author={Belady, Laszlo A.},
+  journal={IBM Systems journal},
+  volume={5},
+  number={2},
+  pages={78--101},
+  year={1966},
+  publisher={IBM}
+}
+
+% Proves Belady MIN is optimal
+@ARTICLE{MINOptimality,
+  author={Mattson, R.L. and Gecsei, J. and Slutz, D. R. and Traiger, I. L.},
+  journal={IBM Systems Journal}, 
+  title={Evaluation techniques for storage hierarchies}, 
+  year={1970},
+  volume={9},
+  number={2},
+  pages={78-117},
+  doi={10.1147/sj.92.0078}}
+
+
+% Kai Li talk: https://uwaterloo.ca/computer-science/events/dls-kai-li-machine-learning-meets-system-designs
+@inproceedings {relaxedBelady,
+    author = {Zhenyu Song and Daniel S. Berger and Kai Li and Wyatt Lloyd},
+    title = {Learning Relaxed Belady for Content Distribution Network Caching },
+    booktitle = {17th USENIX Symposium on Networked Systems Design and Implementation (NSDI 20)},
+    year = {2020},
+    isbn = {978-1-939133-13-7},
+    address = {Santa Clara, CA},
+    pages = {529--544},
+    url = {https://www.usenix.org/conference/nsdi20/presentation/song},
+    publisher = {USENIX Association},
+    month = feb,
+}
+
+% BenchBase
+@article{BenchBase,
+  author = {Djellel Eddine Difallah and Andrew Pavlo and Carlo Curino and Philippe Cudr{\'e}-Mauroux},
+  title = {OLTP-Bench: An Extensible Testbed for Benchmarking Relational Databases},
+  journal = {PVLDB},
+  volume = {7},
+  number = {4},
+  year = {2013},
+  pages = {277--288},
+  url = {http://www.vldb.org/pvldb/vol7/p277-difallah.pdf},
+}
+
+% TPC-H
+@online{tpch,
+  author = {Transaction Processing Performance Council},
+  title = {TPC-H},
+  url = {https://www.tpc.org/tpch},
+  urldate = {2023-08-15}
+}
+
+% GCLOCK (is this the best source?)
+@article{gclock,
+    author = {Smith, Alan Jay},
+    title = {Sequentiality and Prefetching in Database Systems},
+    year = {1978},
+    issue_date = {Sept. 1978},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    volume = {3},
+    number = {3},
+    issn = {0362-5915},
+    url = {https://doi.org/10.1145/320263.320276},
+    doi = {10.1145/320263.320276},
+    journal = {ACM Trans. Database Syst.},
+    month = {sep},
+    pages = {223–247},
+    numpages = {25},
+    keywords = {paging, dynamic programming, sequentiality, database systems, prefetching, buffer management, IMS}
+}
+
+% about postgres implementation details
+@online{pg_buf_internals,
+  author = {Hironobu Suzuki},
+  title = {The Internals of PostgreSQL : Chapter 8 Buffer Manager},
+  url = {https://www.interdb.jp/pg/pgsql08.html},
+  urldate = {2023-07-17}
+}
+
+% TODO: currently the link is to the specific file, 
+@software{pg_buf_readme,
+  author = {{PostgreSQL Global Development Grou}},
+  title = {PostgreSQL Source: Buffer Management},
+  url = {https://git.postgresql.org/gitweb/?p=postgresql.git;a=blob_plain;f=src/backend/storage/buffer/README;hb=refs/heads/REL_14_STABLE},
+  version = {14},
+  urldate = {2023-07-26},
+}
+
+% Vector settings
+% specifically: https://docs.actian.com/vector/6.3/index.html#page/SysAdmin/X100_Configuration_Parameters.htm#ww253080
+@online{vectorDocs,
+  author = {Actian Corporation},
+  title = {Vector 6.3 Documentation},
+  url = {https://docs.actian.com/vector/6.3/index.html},
+  urldate = {2023-07-24}
+}
+
+
+%misc{pg_buf_internals, 
+%    title={The internals of postgresql for database administrators and system %developers},
+%    url={https://www.interdb.jp/pg/pgsql08.html},
+%    journal={The Internals of PostgreSQL: Chapter 8 Buffer Manager}, 
+%    author={Suzuki, Hironobu}
+%}
+
+%online{pg_buf_internals,
+%  author = {Hironobu Suzuki},
+%  title = {The Internals of PostgreSQL: Chapter 8 Buffer Manager},
+%  url = {https://www.interdb.jp/pg/pgsql08.html},
+%  urldate = {2023-07-17}
+%}
+
+
+
+% OTHER RELATED WORK
+@inproceedings{shah2022effective,
+  title={Effective mimicry of belady’s min policy},
+  author={Shah, Ishan and Jain, Akanksha and Lin, Calvin},
+  booktitle={2022 IEEE International Symposium on High-Performance Computer Architecture (HPCA)},
+  pages={558--572},
+  year={2022},
+  organization={IEEE}
+}
+@inproceedings{jain2018rethinking,
+  title={Rethinking belady's algorithm to accommodate prefetching},
+  author={Jain, Akanksha and Lin, Calvin},
+  booktitle={2018 ACM/IEEE 45th Annual International Symposium on Computer Architecture (ISCA)},
+  pages={110--123},
+  year={2018},
+  organization={IEEE}
+}
+@article{chavan2011comparison,
+  title={A comparison of page replacement algorithms},
+  author={Chavan, Amit S and Nayak, Kartik R and Vora, Keval D and Purohit, Manish D and Chawan, Pramila M},
+  journal={International Journal of Engineering and Technology},
+  volume={3},
+  number={2},
+  pages={171},
+  year={2011},
+  publisher={IACSIT Press}
+}
+@article{ghahani2018making,
+  title={Making Belady-inspired replacement policies more effective using expected hit count},
+  author={Ghahani, Seyed Armin Vakil and Shahri, Sara Mahdizadeh and Bakhshalipour, Mohammad and Lotfi-Kamran, Pejman and Sarbazi-Azad, Hamid},
+  journal={arXiv preprint arXiv:1808.05024},
+  year={2018}
+}
+% Hawkeye
+@article{jain2016back,
+  title={Back to the future: Leveraging Belady's algorithm for improved cache replacement},
+  author={Jain, Akanksha and Lin, Calvin},
+  journal={ACM SIGARCH Computer Architecture News},
+  volume={44},
+  number={3},
+  pages={78--89},
+  year={2016},
+  publisher={ACM New York, NY, USA}
+}
+@inproceedings{keramidas2007cache,
+  title={Cache replacement based on reuse-distance prediction},
+  author={Keramidas, Georgios and Petoumenos, Pavlos and Kaxiras, Stefanos},
+  booktitle={2007 25th International Conference on Computer Design},
+  pages={245--250},
+  year={2007},
+  organization={IEEE}
+}
+@inproceedings{petoumenos2010instruction,
+  title={Instruction-based reuse distance prediction replacement policy},
+  author={Petoumenos, Pavlos and Keramidas, Georgios and Kaxiras, Stefanos},
+  booktitle={JWAC 2010-1st JILP Worshop on Computer Architecture Competitions: cache replacement Championship},
+  year={2010}
+}
+@article{jaleel2010high,
+  title={High performance cache replacement using re-reference interval prediction (RRIP)},
+  author={Jaleel, Aamer and Theobald, Kevin B and Steely Jr, Simon C and Emer, Joel},
+  journal={ACM SIGARCH computer architecture news},
+  volume={38},
+  number={3},
+  pages={60--71},
+  year={2010},
+  publisher={ACM New York, NY, USA}
+}
+@inproceedings{lempel2003predictive,
+  title={Predictive caching and prefetching of query results in search engines},
+  author={Lempel, Ronny and Moran, Shlomo},
+  booktitle={Proceedings of the 12th international conference on World Wide Web},
+  pages={19--28},
+  year={2003}
+}
+@article{yang2003web,
+  title={Web-log mining for predictive web caching},
+  author={Yang, Qiang and Zhang, Henry Haining},
+  journal={IEEE Transactions on Knowledge and Data Engineering},
+  volume={15},
+  number={4},
+  pages={1050--1053},
+  year={2003},
+  publisher={IEEE}
+}
+% ^ same authors, same work?
+@inproceedings{yang2001mining,
+  title={Mining web logs for prediction models in WWW caching and prefetching},
+  author={Yang, Qiang and Zhang, Haining Henry and Li, Tianyi},
+  booktitle={Proceedings of the seventh ACM SIGKDD international conference on Knowledge discovery and data mining},
+  pages={473--478},
+  year={2001}
+}
+@inproceedings{wu2011ship,
+  title={SHiP: Signature-based hit predictor for high performance caching},
+  author={Wu, Carole-Jean and Jaleel, Aamer and Hasenplaugh, Will and Martonosi, Margaret and Steely Jr, Simon C and Emer, Joel},
+  booktitle={Proceedings of the 44th Annual IEEE/ACM International Symposium on Microarchitecture},
+  pages={430--441},
+  year={2011}
+}
+
+% learned buffer management
+@inproceedings{yuan2022learned,
+  title={Learned Buffer Replacement for Database Systems},
+  author={Yuan, Yigui and Jin, Peiquan},
+  booktitle={2022 the 5th International Conference on Data Storage and Data Engineering},
+  pages={18--25},
+  year={2022}
+}
+@inproceedings{goi1992extensible,
+  title={Extensible Buffer Management of Indexes?},
+  author={Goi, Chee Yong Chan Beng Chin and Lu, Hongjun},
+  booktitle={Very Large Data Bases: VLBD'92: Proceedings of the 18th International Conference on Very Large Data Bases: August 23-27, 1992: Vancouver, Canada},
+  pages={444},
+  year={1992},
+  organization={Kaufmann}
+}
+@article{famaey2013towards,
+  title={Towards a predictive cache replacement strategy for multimedia content},
+  author={Famaey, Jeroen and Iterbeke, Fr{\'e}d{\'e}ric and Wauters, Tim and De Turck, Filip},
+  journal={Journal of Network and computer Applications},
+  volume={36},
+  number={1},
+  pages={219--227},
+  year={2013},
+  publisher={Elsevier}
+}
+@inproceedings{yoon2002buffer,
+  title={Buffer cache management: predicting the future from the past},
+  author={Yoon, Jinhyuk and Min, Sang Lyul and Cho, Yookun},
+  booktitle={Proceedings International Symposium on Parallel Architectures, Algorithms and Networks. I-SPAN'02},
+  pages={105--110},
+  year={2002},
+  organization={IEEE}
+}

@@ -1,0 +1,435 @@
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+
+\definecolor{crimson2143940}{RGB}{214,39,40}
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkorange25512714}{RGB}{255,127,14}
+\definecolor{forestgreen4416044}{RGB}{44,160,44}
+\definecolor{lightgray204}{RGB}{204,204,204}
+\definecolor{mediumpurple148103189}{RGB}{148,103,189}
+\definecolor{sienna1408675}{RGB}{140,86,75}
+\definecolor{steelblue31119180}{RGB}{31,119,180}
+
+\begin{axis}[
+legend cell align={left},
+legend style={
+  font=\tiny,
+  fill opacity=0.8,
+  draw opacity=1,
+  text opacity=1,
+  at={(0.03,0.97)},
+  anchor=north west,
+  draw=lightgray204
+},
+tick align=outside,
+tick pos=left,
+%title={IO volume vs parallelism - Sequential Scans - Impact of Sample Size},
+x grid style={darkgray176},
+xlabel={Parallelism},
+xtick=data,
+xmin=0.5, xmax=33.5,
+xtick style={color=black},
+y grid style={darkgray176},
+ylabel={I/O Volume (GiB)},
+ymin=0, ymax=599.135340033033,
+ytick style={color=black}
+]
+\path [draw=steelblue31119180, line width=0.3px]
+(axis cs:2,43.632509452701)
+--(axis cs:2,48.0735757523771);
+
+\path [draw=steelblue31119180, line width=0.3px]
+(axis cs:4,72.2695557781344)
+--(axis cs:4,83.0822661212797);
+
+\path [draw=steelblue31119180, line width=0.3px]
+(axis cs:6,108.458272856109)
+--(axis cs:6,111.844293672211);
+
+\path [draw=steelblue31119180, line width=0.3px]
+(axis cs:8,131.833606145338)
+--(axis cs:8,141.599835016772);
+
+\path [draw=steelblue31119180, line width=0.3px]
+(axis cs:12,184.876766063866)
+--(axis cs:12,194.734031055275);
+
+\path [draw=steelblue31119180, line width=0.3px]
+(axis cs:16,239.885404911843)
+--(axis cs:16,249.249903926048);
+
+\path [draw=steelblue31119180, line width=0.3px]
+(axis cs:24,340.053583923434)
+--(axis cs:24,345.594801696684);
+
+\path [draw=steelblue31119180, line width=0.3px]
+(axis cs:32,445.041163072241)
+--(axis cs:32,463.868675794946);
+
+\addplot [line width=0.3px, steelblue31119180, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 43.632509452701
+4 72.2695557781344
+6 108.458272856109
+8 131.833606145338
+12 184.876766063866
+16 239.885404911843
+24 340.053583923434
+32 445.041163072241
+};
+\addplot [line width=0.3px, steelblue31119180, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 48.0735757523771
+4 83.0822661212797
+6 111.844293672211
+8 141.599835016772
+12 194.734031055275
+16 249.249903926048
+24 345.594801696684
+32 463.868675794946
+};
+\path [draw=darkorange25512714, line width=0.3px]
+(axis cs:2,43.8611974357543)
+--(axis cs:2,48.3675531745973);
+
+\path [draw=darkorange25512714, line width=0.3px]
+(axis cs:4,72.7762613613308)
+--(axis cs:4,85.6683248203098);
+
+\path [draw=darkorange25512714, line width=0.3px]
+(axis cs:6,110.90276817725)
+--(axis cs:6,117.79728675439);
+
+\path [draw=darkorange25512714, line width=0.3px]
+(axis cs:8,137.596731145181)
+--(axis cs:8,149.75672649642);
+
+\path [draw=darkorange25512714, line width=0.3px]
+(axis cs:12,190.136158483796)
+--(axis cs:12,200.557603723235);
+
+\path [draw=darkorange25512714, line width=0.3px]
+(axis cs:16,251.055803413341)
+--(axis cs:16,269.026380424549);
+
+\path [draw=darkorange25512714, line width=0.3px]
+(axis cs:24,352.463390580304)
+--(axis cs:24,364.673746260516);
+
+\path [draw=darkorange25512714, line width=0.3px]
+(axis cs:32,445.949418135177)
+--(axis cs:32,456.907124833573);
+
+\addplot [line width=0.3px, darkorange25512714, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 43.8611974357543
+4 72.7762613613308
+6 110.90276817725
+8 137.596731145181
+12 190.136158483796
+16 251.055803413341
+24 352.463390580304
+32 445.949418135177
+};
+\addplot [line width=0.3px, darkorange25512714, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 48.3675531745973
+4 85.6683248203098
+6 117.79728675439
+8 149.75672649642
+12 200.557603723235
+16 269.026380424549
+24 364.673746260516
+32 456.907124833573
+};
+\path [draw=forestgreen4416044, line width=0.3px]
+(axis cs:2,44.34702015362)
+--(axis cs:2,48.8899640993097);
+
+\path [draw=forestgreen4416044, line width=0.3px]
+(axis cs:4,75.9394119190446)
+--(axis cs:4,85.9850143504866);
+
+\path [draw=forestgreen4416044, line width=0.3px]
+(axis cs:6,107.5752004105)
+--(axis cs:6,123.518268827781);
+
+\path [draw=forestgreen4416044, line width=0.3px]
+(axis cs:8,136.135381987717)
+--(axis cs:8,144.539202973221);
+
+\path [draw=forestgreen4416044, line width=0.3px]
+(axis cs:12,204.052807328578)
+--(axis cs:12,219.498666670445);
+
+\path [draw=forestgreen4416044, line width=0.3px]
+(axis cs:16,266.928200719889)
+--(axis cs:16,278.798657800619);
+
+\path [draw=forestgreen4416044, line width=0.3px]
+(axis cs:24,362.126634154095)
+--(axis cs:24,380.297059693562);
+
+\path [draw=forestgreen4416044, line width=0.3px]
+(axis cs:32,452.614841182486)
+--(axis cs:32,475.995260135873);
+
+\addplot [line width=0.3px, forestgreen4416044, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 44.34702015362
+4 75.9394119190446
+6 107.5752004105
+8 136.135381987717
+12 204.052807328578
+16 266.928200719889
+24 362.126634154095
+32 452.614841182486
+};
+\addplot [line width=0.3px, forestgreen4416044, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 48.8899640993097
+4 85.9850143504866
+6 123.518268827781
+8 144.539202973221
+12 219.498666670445
+16 278.798657800619
+24 380.297059693562
+32 475.995260135873
+};
+\path [draw=crimson2143940, line width=0.3px]
+(axis cs:2,45.8625002571665)
+--(axis cs:2,50.4395779899038);
+
+\path [draw=crimson2143940, line width=0.3px]
+(axis cs:4,81.1041526754254)
+--(axis cs:4,92.1768348734028);
+
+\path [draw=crimson2143940, line width=0.3px]
+(axis cs:6,120.744862068922)
+--(axis cs:6,129.48120909807);
+
+\path [draw=crimson2143940, line width=0.3px]
+(axis cs:8,149.82548115963)
+--(axis cs:8,160.337913005409);
+
+\path [draw=crimson2143940, line width=0.3px]
+(axis cs:12,206.481022086203)
+--(axis cs:12,223.814925179422);
+
+\path [draw=crimson2143940, line width=0.3px]
+(axis cs:16,281.898840200702)
+--(axis cs:16,293.997989022931);
+
+\path [draw=crimson2143940, line width=0.3px]
+(axis cs:24,381.038190298434)
+--(axis cs:24,401.737420053129);
+
+\path [draw=crimson2143940, line width=0.3px]
+(axis cs:32,467.1980323006)
+--(axis cs:32,479.992305834166);
+
+\addplot [line width=0.3px, crimson2143940, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 45.8625002571665
+4 81.1041526754254
+6 120.744862068922
+8 149.82548115963
+12 206.481022086203
+16 281.898840200702
+24 381.038190298434
+32 467.1980323006
+};
+\addplot [line width=0.3px, crimson2143940, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 50.4395779899038
+4 92.1768348734028
+6 129.48120909807
+8 160.337913005409
+12 223.814925179422
+16 293.997989022931
+24 401.737420053129
+32 479.992305834166
+};
+\path [draw=mediumpurple148103189, line width=0.3px]
+(axis cs:2,50.4373674391364)
+--(axis cs:2,56.4187696458246);
+
+\path [draw=mediumpurple148103189, line width=0.3px]
+(axis cs:4,93.9765199081152)
+--(axis cs:4,103.12223192294);
+
+\path [draw=mediumpurple148103189, line width=0.3px]
+(axis cs:6,134.286589760563)
+--(axis cs:6,147.750852256038);
+
+\path [draw=mediumpurple148103189, line width=0.3px]
+(axis cs:8,175.909839897603)
+--(axis cs:8,188.215224189312);
+
+\path [draw=mediumpurple148103189, line width=0.3px]
+(axis cs:12,248.006705379485)
+--(axis cs:12,265.958370304108);
+
+\path [draw=mediumpurple148103189, line width=0.3px]
+(axis cs:16,321.136310445719)
+--(axis cs:16,330.472890604085);
+
+\path [draw=mediumpurple148103189, line width=0.3px]
+(axis cs:24,427.770628340822)
+--(axis cs:24,439.093119828124);
+
+\path [draw=mediumpurple148103189, line width=0.3px]
+(axis cs:32,513.203350990141)
+--(axis cs:32,527.642159874117);
+
+\addplot [line width=0.3px, mediumpurple148103189, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 50.4373674391364
+4 93.9765199081152
+6 134.286589760563
+8 175.909839897603
+12 248.006705379485
+16 321.136310445719
+24 427.770628340822
+32 513.203350990141
+};
+\addplot [line width=0.3px, mediumpurple148103189, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 56.4187696458246
+4 103.12223192294
+6 147.750852256038
+8 188.215224189312
+12 265.958370304108
+16 330.472890604085
+24 439.093119828124
+32 527.642159874117
+};
+\path [draw=sienna1408675, line width=0.3px]
+(axis cs:2,59.2698559369626)
+--(axis cs:2,66.1157184038577);
+
+\path [draw=sienna1408675, line width=0.3px]
+(axis cs:4,113.131399250725)
+--(axis cs:4,122.434405802986);
+
+\path [draw=sienna1408675, line width=0.3px]
+(axis cs:6,163.986097134242)
+--(axis cs:6,175.936836825719);
+
+\path [draw=sienna1408675, line width=0.3px]
+(axis cs:8,211.893266187919)
+--(axis cs:8,224.249250901925);
+
+\path [draw=sienna1408675, line width=0.3px]
+(axis cs:12,286.766548117726)
+--(axis cs:12,307.163417092235);
+
+\path [draw=sienna1408675, line width=0.3px]
+(axis cs:16,372.453377213254)
+--(axis cs:16,384.04265550159);
+
+\path [draw=sienna1408675, line width=0.3px]
+(axis cs:24,483.600068361662)
+--(axis cs:24,497.090913694002);
+
+\path [draw=sienna1408675, line width=0.3px]
+(axis cs:32,564.102353321192)
+--(axis cs:32,572.682824291113);
+
+\addplot [line width=0.3px, sienna1408675, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 59.2698559369626
+4 113.131399250725
+6 163.986097134242
+8 211.893266187919
+12 286.766548117726
+16 372.453377213254
+24 483.600068361662
+32 564.102353321192
+};
+\addplot [line width=0.3px, sienna1408675, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 66.1157184038577
+4 122.434405802986
+6 175.936836825719
+8 224.249250901925
+12 307.163417092235
+16 384.04265550159
+24 497.090913694002
+32 572.682824291113
+};
+\addplot [semithick, steelblue31119180]
+table {%
+2 45.8530426025391
+4 77.675910949707
+6 110.15128326416
+8 136.716720581055
+12 189.80539855957
+16 244.567654418945
+24 342.824192810059
+32 454.454919433594
+};
+\addlegendentry{PBM-sampling (100)}
+\addplot [semithick, darkorange25512714]
+table {%
+2 46.1143753051758
+4 79.2222930908203
+6 114.35002746582
+8 143.676728820801
+12 195.346881103516
+16 260.041091918945
+24 358.56856842041
+32 451.428271484375
+};
+\addlegendentry{PBM-sampling (20)}
+\addplot [semithick, forestgreen4416044]
+table {%
+2 46.6184921264648
+4 80.9622131347656
+6 115.546734619141
+8 140.337292480469
+12 211.775736999512
+16 272.863429260254
+24 371.211846923828
+32 464.30505065918
+};
+\addlegendentry{PBM-sampling (10)}
+\addplot [semithick, crimson2143940]
+table {%
+2 48.1510391235352
+4 86.6404937744141
+6 125.113035583496
+8 155.08169708252
+12 215.147973632812
+16 287.948414611816
+24 391.387805175781
+32 473.595169067383
+};
+\addlegendentry{PBM-sampling (5)}
+\addplot [semithick, mediumpurple148103189]
+table {%
+2 53.4280685424805
+4 98.5493759155273
+6 141.018721008301
+8 182.062532043457
+12 256.982537841797
+16 325.804600524902
+24 433.431874084473
+32 520.422755432129
+};
+\addlegendentry{PBM-sampling (2)}
+\addplot [semithick, sienna1408675]
+table {%
+2 62.6927871704102
+4 117.782902526855
+6 169.96146697998
+8 218.071258544922
+12 296.96498260498
+16 378.248016357422
+24 490.345491027832
+32 568.392588806152
+};
+\addlegendentry{Random}
+\end{axis}
+
+\end{tikzpicture}

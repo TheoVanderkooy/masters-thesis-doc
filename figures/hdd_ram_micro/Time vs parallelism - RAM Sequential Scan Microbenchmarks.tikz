@@ -1,0 +1,234 @@
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkorange25512714}{RGB}{255,127,14}
+\definecolor{forestgreen4416044}{RGB}{44,160,44}
+\definecolor{lightgray204}{RGB}{204,204,204}
+\definecolor{steelblue31119180}{RGB}{31,119,180}
+
+\begin{axis}[
+legend cell align={left},
+legend style={
+  font=\tiny,
+  fill opacity=0.8,
+  draw opacity=1,
+  text opacity=1,
+  at={(0.03,0.97)},
+  anchor=north west,
+  draw=lightgray204
+},
+tick align=outside,
+tick pos=left,
+%title={Time vs parallelism - RAM Sequential Scan Microbenchmarks},
+x grid style={darkgray176},
+xlabel={Parallelism},
+xtick=data,
+xmin=0.5, xmax=33.5,
+xtick style={color=black},
+y grid style={darkgray176},
+ylabel={Time (min)},
+ymin=0, ymax=17.4647406112693,
+ytick style={color=black}
+]
+\path [draw=steelblue31119180, line width=0.3px]
+(axis cs:2,2.22470419939917)
+--(axis cs:2,2.27531713183416);
+
+\path [draw=steelblue31119180, line width=0.3px]
+(axis cs:4,2.95500641799074)
+--(axis cs:4,3.01834805860926);
+
+\path [draw=steelblue31119180, line width=0.3px]
+(axis cs:6,4.01388096855919)
+--(axis cs:6,4.20613945805415);
+
+\path [draw=steelblue31119180, line width=0.3px]
+(axis cs:8,4.76241699639066)
+--(axis cs:8,5.07093522404934);
+
+\path [draw=steelblue31119180, line width=0.3px]
+(axis cs:12,6.64451081126703)
+--(axis cs:12,6.92883810469963);
+
+\path [draw=steelblue31119180, line width=0.3px]
+(axis cs:16,8.57306810050618)
+--(axis cs:16,8.78028923078048);
+
+\path [draw=steelblue31119180, line width=0.3px]
+(axis cs:24,12.3212495837536)
+--(axis cs:24,12.5187706696864);
+
+\path [draw=steelblue31119180, line width=0.3px]
+(axis cs:32,16.1987713723568)
+--(axis cs:32,16.5545837241099);
+
+\addplot [line width=0.3px, steelblue31119180, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 2.22470419939917
+4 2.95500641799074
+6 4.01388096855919
+8 4.76241699639066
+12 6.64451081126703
+16 8.57306810050618
+24 12.3212495837536
+32 16.1987713723568
+};
+\addplot [line width=0.3px, steelblue31119180, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 2.27531713183416
+4 3.01834805860926
+6 4.20613945805415
+8 5.07093522404934
+12 6.92883810469963
+16 8.78028923078048
+24 12.5187706696864
+32 16.5545837241099
+};
+\path [draw=darkorange25512714, line width=0.3px]
+(axis cs:2,2.20387380509346)
+--(axis cs:2,2.25614194705987);
+
+\path [draw=darkorange25512714, line width=0.3px]
+(axis cs:4,2.93347195453126)
+--(axis cs:4,2.98654701918207);
+
+\path [draw=darkorange25512714, line width=0.3px]
+(axis cs:6,3.92666791420918)
+--(axis cs:6,4.10001965221749);
+
+\path [draw=darkorange25512714, line width=0.3px]
+(axis cs:8,4.78505609040486)
+--(axis cs:8,5.12163309000181);
+
+\path [draw=darkorange25512714, line width=0.3px]
+(axis cs:12,6.8705387230312)
+--(axis cs:12,6.94947596106879);
+
+\path [draw=darkorange25512714, line width=0.3px]
+(axis cs:16,8.70593063392201)
+--(axis cs:16,8.88075801249799);
+
+\path [draw=darkorange25512714, line width=0.3px]
+(axis cs:24,12.4025002823485)
+--(axis cs:24,12.5708537339915);
+
+\path [draw=darkorange25512714, line width=0.3px]
+(axis cs:32,16.4084113258484)
+--(axis cs:32,16.5649356079316);
+
+\addplot [line width=0.3px, darkorange25512714, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 2.20387380509346
+4 2.93347195453126
+6 3.92666791420918
+8 4.78505609040486
+12 6.8705387230312
+16 8.70593063392201
+24 12.4025002823485
+32 16.4084113258484
+};
+\addplot [line width=0.3px, darkorange25512714, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 2.25614194705987
+4 2.98654701918207
+6 4.10001965221749
+8 5.12163309000181
+12 6.94947596106879
+16 8.88075801249799
+24 12.5708537339915
+32 16.5649356079316
+};
+\path [draw=forestgreen4416044, line width=0.3px]
+(axis cs:2,2.23027617544577)
+--(axis cs:2,2.2564073644209);
+
+\path [draw=forestgreen4416044, line width=0.3px]
+(axis cs:4,2.94759940911954)
+--(axis cs:4,3.10575095112713);
+
+\path [draw=forestgreen4416044, line width=0.3px]
+(axis cs:6,4.09529685996338)
+--(axis cs:6,4.31139044739662);
+
+\path [draw=forestgreen4416044, line width=0.3px]
+(axis cs:8,4.79879634510784)
+--(axis cs:8,5.11455941172549);
+
+\path [draw=forestgreen4416044, line width=0.3px]
+(axis cs:12,6.93459078145878)
+--(axis cs:12,7.01876952877455);
+
+\path [draw=forestgreen4416044, line width=0.3px]
+(axis cs:16,8.68681295815644)
+--(axis cs:16,8.87320790114356);
+
+\path [draw=forestgreen4416044, line width=0.3px]
+(axis cs:24,12.5385928626912)
+--(axis cs:24,12.7680952487755);
+
+\path [draw=forestgreen4416044, line width=0.3px]
+(axis cs:32,16.4819870253819)
+--(axis cs:32,16.7380326681181);
+
+\addplot [line width=0.3px, forestgreen4416044, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 2.23027617544577
+4 2.94759940911954
+6 4.09529685996338
+8 4.79879634510784
+12 6.93459078145878
+16 8.68681295815644
+24 12.5385928626912
+32 16.4819870253819
+};
+\addplot [line width=0.3px, forestgreen4416044, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 2.2564073644209
+4 3.10575095112713
+6 4.31139044739662
+8 5.11455941172549
+12 7.01876952877455
+16 8.87320790114356
+24 12.7680952487755
+32 16.7380326681181
+};
+\addplot [semithick, steelblue31119180]
+table {%
+2 2.25001066561667
+4 2.9866772383
+6 4.11001021330667
+8 4.91667611022
+12 6.78667445798333
+16 8.67667866564333
+24 12.42001012672
+32 16.3766775482333
+};
+\addlegendentry{Clock-sweep}
+\addplot [semithick, darkorange25512714]
+table {%
+2 2.23000787607667
+4 2.96000948685667
+6 4.01334378321333
+8 4.95334459020333
+12 6.91000734205
+16 8.79334432321
+24 12.48667700817
+32 16.48667346689
+};
+\addlegendentry{PBM-PQ}
+\addplot [semithick, forestgreen4416044]
+table {%
+2 2.24334176993333
+4 3.02667518012333
+6 4.20334365368
+8 4.95667787841667
+12 6.97668015511667
+16 8.78001042965
+24 12.6533440557333
+32 16.61000984675
+};
+\addlegendentry{PBM-sampling (10)}
+\end{axis}
+
+\end{tikzpicture}

@@ -1,0 +1,115 @@
+
+\chapter{}{Extending and Enhancing Sampling-based PBM}
+This chapter describes improvements to PBM-sampling, some of which are general improvements for all workloads and others allow PBM-sampling to perform well on workload types beyond what PBM-PQ specialises in.
+
+\section{Bulk Eviction\label{sec:sampling-bulk-eviction}}
+
+PBM-PQ evicts several pages at once to amortize the CPU cost of eviction.~\cite{pbm} With sampling, there is not a direct CPU benefit to evicting multiple blocks at once, but we can achieve better hit rate for the same CPU cost with a similar bulk eviction technique.
+
+Rather than choosing $N$ buffers from the cache and evicting only one each time a buffer is allocated, consider taking a sample of $kN$ buffers and evicting the $k$ buffers from the sample with largest next-access time. This technique considers the same $kN$ buffers over a sequence of $k$ buffer allocations, but can make better eviction decisions by considering them all together rather than separately.
+
+With separate single evictions, it is possible that one sample may not contain any good candidates resulting in a bad eviction, while another sample may contain multiple good eviction candidates but will select only one. With bulk eviction, it is as if we can take a surplus good eviction candidate from a different recent or near-future sample instead of evicting the bad candidate, thus reducing the over-all rate of bad eviction choices. See Figure \ref{fig:multi-eviction}  as an example. In the example, the first eviction samples two good eviction candidates while the second eviction samples only items that should be kept in the cache, so with single eviction it would end up making a bad eviction. Using bulk eviction for this scenario, the same sampled cache items from multiple consecutive evictions are considered together allowing both good candidates from the first single-eviction sample to be evicted and avoiding evicting something which would optimally be kept in the cache.
+
+(todo: extra section \ref{sec:sampling-probabilities} analyzes the improvement mathematically. Not sure how much of that analysis to include here or if it should stay an appendix in the thesis.)
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/Diagrams/diagrams-multi-eviction-a.pdf}
+        \caption{Multiple single evictions each evict the single item with latest next-access from a limited sample}
+    \end{subfigure}
+    \vspace{5pt}
+    \begin{subfigure}{\columnwidth}
+        \centering
+        \includegraphics[width=0.8181818\columnwidth]{figures/Diagrams/diagrams-multi-eviction-b.pdf}
+        \caption{Bulk-eviction considers the same samples, with a better set of eviction choices}
+    \end{subfigure}
+    
+    \caption{Bulk eviction example with $N=k=3$}
+    \label{fig:multi-eviction}
+\end{figure}
+
+With this technique the total number of samples chosen -- and therefore next-access estimates computed -- stays the same compared to single-eviction, so the CPU cost is practically the same, but we can make better eviction decisions and improve the hit rate.
+
+
+% With more evictions together there is a larger gap between when eviction decisions are made and when the block is actually replaced in the cache. With too many evictions at once this gap means evictions decisions are effectively made earlier than the actual eviction, running the risk of bad eviction decisions based on old data, but for a small number of evictions at once the time to replace all blocks chosen for eviction is very small.
+
+
+
+\section{\label{sec:frequency-stats}Frequency Statistics}
+
+\citet{pbm} mention, but do not implement, an extension to PBM-PQ using frequency statistics to prioritize cache blocks that are not requested by any active sequential scans. This is not expected to help for workloads with only long-running sequential scans, but could be useful for smaller tables and index lookups. The method proposed by \citet{pbm} is to store a few recent access times for each block, and store non-requested blocks in a separate set of buckets corresponding to the inter-access time. The second set of buckets ages over time, equivalently increasing the estimated time-to-next-access of these blocks.
+
+We pursue this proposal by developing a similar idea to track frequency statistics in PBM-sampling that is much easier to implement as discussed in Section \ref{sec:sampling-advantages}. In PBM-sampling, we track an exponentially weighted moving average of the time between accesses (inter-access time) for each block in the cache. With sampling, we do not need any special data structure to handle this scenario, just some extra fields in the existing buffer headers. If the time-since-last-access is less than the average inter-access time, the frequency-based time-to-next-access is estimated to be the average inter-access time. Once the time-since-last-access exceeds the average inter-access time, we use time-since-last-access as the estimated time-to-next-access to decrease the relative priority of these blocks over time. 
+
+If a block is also registered by a sequential scan, the resulting next-access estimate is the minimum of the frequency-based and registered-scan-based estimates.
+
+These stats are only kept for blocks currently in the cache, so newly loaded blocks will not have an inter-access time since they have been accessed only once. Newly loaded blocks are therefore more likely to be evicted prematurely if they are not also requested by a sequential scan. This is somewhat with sampling since we expect some time to pass before the blocks will be sampled. The next section discusses another method for handling the case of non-requested blocks.
+
+\section{\label{sec:lru_nr}Fallback to LRU}
+
+% TODO: revisit this, it references the later implement section. probably need some of those details moved here.
+
+The original implementation of PBM-PQ \cite{pbm} uses LRU to prioritize amongst blocks that are not requested sequentially.\footnote{Our PBM-PQ implementation takes a different approach, discussed in Section \ref{sec:pbm-pq_postgres}.} With our sampling-based strategy, the frequency statistics described in Section \ref{sec:frequency-stats} mostly serves the same purpose, but as mentioned has a blind-spot for blocks that are new to the cache and have not yet been accessed multiple times. A technique we can use to improve this case is to use LRU as a tie-breaker for blocks that are not requested sequentially and do not have frequency statistics. If multiple sampled blocks are not requested sequentially and do not have frequency statistics, we prefer to keep the ones that have been accessed more recently and evict the one accessed least-recently. % or, if freqency stats are disabled we can use this instead
+
+
+\section{\label{sec:index_scans}Index scans}
+
+So far we have mainly discussed sequential access patterns. Sequential scans are the most efficient way to read a large data-set when most of the data is needed to answer a query, but secondary indexes can greatly reduce I/O and CPU cost for workloads where this is not the case. PostgreSQL supports various types of indexes, so we should also consider them to inform caching decisions.
+
+Unfortunately, index scans do not generally have a predictable order for accessing secondary storage, so they are not as easy to predict as sequential scans. There are, however, a few situations where we may be able to use information from an index scan to help make eviction decisions.
+
+\subsection{\label{sec:bitmap_scans}Bitmap Index Scans}
+
+In PostgreSQL, any index can be scanned as a bitmap scan. In this case, the system first reads only the index and constructs a bitmap indicating which tuples might match the query predicate. The table is then scanned in sequential order, using the bitmap to skip blocks that do not contain any matching tuples. Bitmap scans can be selected by the query planner for any type of index, but certain index types can only be used with bitmap scans. Most notably, PostgreSQL's block range indexes (BRIN) always use bitmap scans. BRIN splits the table into ranges of blocks and stores a summary of each range, which can be compared to the query predicate to quickly rule out all tuples from a range. The default form of BRIN is a min-max index, where the summaries store the column's minimum and maximum value for each range of blocks, and it also supports bloom filter summaries and a few other strategies for specific data types.
+
+Bitmap scans are the best-case for index scans with predictive buffer management: the order is predictable and the set of blocks to be retrieved is known early, after constructing the bitmap. It is easy to support bitmap scans in both sampling-based and priority-queue based PBM as the only necessary change is to how the scan is initially registered. The PBM registration happens after the scan operator constructs the bitmap, and the bitmap itself is used to determine which blocks will be scanned and when, but the rest of the implementation is the same as for sequential scans.
+
+The original implementation of PBM-PQ supports Vector's automatic min-max indexes in a similar way~\cite{pbm}, but PostgreSQL's bitmap scans are more general and apply to more types of indexes.
+
+
+% This uses some extra memory to store the bitmap and loses the sorting properties of B-Tree indexes, but has advantages in some scenarios. Some index types - such as BRIN - only support bitmap scans, depending on the query it can prevent fetching the same block multiple times in a single scan, and with complex predicates multiple bitmaps can be combined bit-wise to use multiple indexes for a single scan. For caching purposes however, bitmap scans have the advantage that once the bitmap is constructed, we know exactly which heap blocks will be accessed and in what order making it easy to predict next-access-time for PBM. In fact, we implemented support for this from the start to have feature parity with the description of PBM-PQ~\cite{pbm}.
+
+
+% For non-bitmap scans there are again a few cases to consider:
+% \begin{itemize}
+%     \item Point lookups: where an index scan is used to access a single row or small number of rows in a table, such as a query for a specific value of the primary key.
+%     \item Repeated point lookups: where a single scan operator is repeatedly rescanned with different scan keys but only returns a few tuples per loop, such as a join.
+%     \item Range scans: where the scan returns a large number of rows all matching the same predicate, which for a B-Tree index will return the results in sorted order according to the index keys.
+% \end{itemize}
+
+% For the single point lookup case, the scan is very short lived from when it starts to when it completes so there is almost no opportunity to use knowledge of the scan to improve next-access-time estimates. So unfortunately we mostly have to ignore these cases.
+
+% For long-running index scans, there is an opportunity for better estimates based on the scan. 
+
+% In the simplest form, we could assume the order of tuples accessed is fully independent from the order on disk such that at any point, each block is equally likely to contain the next tuple to be accessed. Then we can model the access to a block in the table from a particular scan as a geometric distribution based on the speed of the scan, and estimate the average time between accesses for the table based on the speed of all active scans on the table. This does not help at all when deciding which blocks of the same table should be evicted, but does help give a relative priority between different tables. In some cases, this may be the best we can do for estimating index scan accesses.
+
+
+\subsection{Trailing Index Scans\label{sec:idx_trailing}}
+
+% (todo: this ended up not helping, maybe not worth keeping in?)
+
+Certain index types -- such as B-tree indexes -- return their results in sorted order. Thus two independent index range scans with overlapping ranges will visit the tuples from the shared part of the range in the same order. When there are concurrent index range scans on the same relation, we can detect the shared scan range and use information from one scan to know what the next scan will access.
+
+The way we detect a trailing index scan involves marking blocks as they are accessed by the leading scan for the trailing scan to detect when it reaches the same point. When an index scan accesses a block it records in the buffer header: the current time, which tuple from the block was accessed, and which index is used. When another index scan reaches the same tuple, it checks the mark to determine whether it is following another scan. If the mark is for the same index and the same tuple, the scan knows it is trailing the scan that left the mark and can calculate how far behind it is based on the recorded timestamp. It then notifies the leading scan that it is trailing with a certain delay, and the leading scan will also start marking blocks it accesses with the time it estimates the trailing scan will also reach that block. Estimating next-access-times will now use the estimate left by the leading scan if this estimate is less than the access time suggested by other factors.
+
+% ... Alternate (unimplemented) idea for detecting trailing scan: Modify the B-Tree structure to know the current position w.r.t. the index order. Can do this by modifying the internal nodes to store the size (\# of leaves) in each subtree. When searching the tree for the starting point of the range, add up the number of leaves in the subtrees left of the search path to know the position of the first tuple in the index order. Then multiple scans can be ordered by their position to determine how many tuples apart they are in the index order.
+
+
+\subsection{Almost-sequential Index Scans\label{sec:idx_seq}}
+
+% (todo: this ended up not helping, maybe not worth keeping in?)
+
+Some columns in a table are highly correlated with the physical order of the table. Such columns are good candidate for BRIN indexes, but a B-Tree index can make sense when the query optimizer also wants to sort by that column efficiently. Due to the correlation between the column order and physical order, even an index scan on the column will access the disk blocks in a mostly-sequential order. The PostgreSQL optimizer already has statistics for how correlated an index scan will be with the physical order, so when the correlation is high we can treat the index scan more like a sequential scan. Then we can estimate when a specific scan will reach a specific block based on the scan's current position and distance between the current and target block, and how fast the scan is progressing.
+
+% Why this might not work well:
+%  - for the microbenchmark I came up with, the scan jumps backwards 4k blocks from one key to the next (I only looked at a tiny part of the data, maybe worse over-all). 
+%  - so at any time, there is ~320 MiB that could be accessed in the very-near future, which is too much to reasonably keep cached per query.
+
+
+% \textbf{Inverse frequency}: ...
+
+\subsection{Random Access}
+
+For less predictable accesses, such as point look-ups or index scans with no correlation between index and physical order, it is much more difficult to reliably estimate next-access-times. In these scenarios, the frequency statistics from Section~\ref{sec:frequency-stats} are a reasonable heuristic for detecting hot-spots in the data.

@@ -1,0 +1,102 @@
+
+
+\chapter{Extra results discussion}
+About this section: some extra experiments that I think are interesting and may be worth including in the thesis, but maybe not a paper.
+
+\section{CPU overhead}
+I do not have very scientific numbers here. General results were: clock-sweep was the lowest ($< 1\mu s$ per eviction), sampling was a bit higher (a few $\mu s$ depending on configuration), PBM-PQ was highest on average but still on the order of 10s of $\mu s$. This is only the time to select the eviction candidates, for PBM it does not include the extra overhead of registering the scans (which will be the same for both PBM forms) or overhead of tracking frequency stats.
+
+There are a few other factors to consider:
+\begin{itemize}
+    \item Better hit rate means fewer evictions, which could result in less CPU overhead over-all. (or at least reduces the total overhead)
+    \item The CPU overhead may scale differently with more parallelism. PBM-PQ likely has more lock contention compared to the others.
+\end{itemize}
+
+\section{HDD experiments}
+Due to their mechanical design, hard drive performance is highly dependent on the data access pattern. Cache management can indirectly impact the access pattern by influencing \textit{which} accesses go to the disk or not, so the caching policy can impact performance beyond just the hit rate.
+
+Running the same sequential microbenchmarks from Section \ref{sec:eval-seq-micro} on a mechanical HDD, we get similar hit rate and I/O volume results (shown in Figure \ref{fig:hdd_results}) as the SSD, but run-time results that do seem to match these results. Specifically, PBM-sampling consistently achieves less I/O volume but higher run-time than PBM-PQ and Clock-sweep.
+
+\begin{figure*}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[height=0.3\textheight]{figures/hdd_ram_micro/Hit rate vs parallelism - HDD Sequential Scan Microbenchmarks.tikz}
+        \caption{HDD Hit Rate}
+        \label{fig:hdd_hitrate}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+       \centering
+        \includegraphics[height=0.3\textheight]{figures/hdd_ram_micro/IO volume vs parallelism - HDD Sequential Scan Microbenchmarks.tikz}
+        \caption{HDD I/O volume}
+        \label{fig:hdd_iovol}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[height=0.3\textheight]{figures/hdd_ram_micro/Time vs parallelism - HDD Sequential Scan Microbenchmarks.tikz}
+        \caption{HDD Run-time}
+        \label{fig:hdd_time}
+    \end{subfigure}
+    \caption{HDD Results}
+    \label{fig:hdd_results}
+\end{figure*}
+
+\begin{figure*}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[height=0.3\textheight]{figures/hdd_ram_micro/Postgres IO rate vs parallelism - HDD Sequential Scan Microbenchmarks.tikz}
+        \caption{HDD I/O Throughput}
+        \label{fig:hdd_iorate}
+    \end{subfigure}  \hspace{0.16\textwidth}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[height=0.3\textheight]{figures/seq_micro/Postgres IO rate vs parallelism - Sequential Scan Microbenchmarks.tikz}
+        \caption{SSD I/O Throughput}
+        \label{fig:ssd_iorate}
+    \end{subfigure}
+    \caption{HDD vs SSD I/O Throughput}
+\end{figure*}
+
+To understand this, we examine performance metrics for the storage medium itself. Figures \ref{fig:hdd_iorate} and \ref{fig:ssd_iorate} show the I/O throughput of each caching policy using an HDD and SSD respectively.
+
+First, notice that with a mechanical hard drive the I/O throughput decreases as parallelism increases. This can be explained by the access pattern becoming more random; while each scan individually is sequential, multiple scans are not necessarily scanning the same location at the same time and. Compared to the SSD where there is very little performance difference between random and sequential accesses so, I/O throughput continues to increase as parallelism increases and more data is read from the drive, and is not even close to the maximum speed of the drive at low parallelism. 
+
+Comparing the I/O throughput of different caching policies on the HDD, we see that PBM-sampling consistently gets lower throughput than Clock-sweep and PBM-sampling, which are very similar. The most likely explanation here is that the eviction policy is influencing the future access patterns in a way that influences the performance of the drive.
+
+For clock-sweep: for this mostly-sequential workload with no "hot-spots" the algorithm tends to evict blocks in the same order they are accessed, mimicking an LRU strategy. Since all scans access the blocks in the same sequential order, this tends to cause large chunks of the scan to either all be in the cache, or none of it is cached and that whole section can be read sequentially for maximum I/O efficiency. % Compared to the worst-case random policy, where even a sequential scan will frequently alternate between a block that is cached and one that is not. The workload then appears random to the disk, so the IO performance is degraded.
+
+Similarly, PBM-PQ evicts a large number of blocks with similar estimated next access times at once. Blocks from the same region of the table will tend to have similar estimated access times -- especially for this sequential workload -- resulting in large chunks either being entirely cached or entirely not cached.
+
+Here we see that both clock-sweep and PBM-PQ choose eviction candidates in a way that allows accesses \textit{to secondary storage} to be mainly sequential when the queries are accessing data sequentially. In contrast, PBM-sampling evicts single blocks at a time and independently from other evictions. Thus it is fairly likely to have some, but not all, of a range cached requiring a few random reads instead of either having an entire range cached or being able to read the range fully sequentially.
+
+ % With PBM-sampling, it is very possible to have most of a range cached but not some parts, resulting in a few random reads rather than the entire range being cached. Similarly for regions that are mostly not cached, there may be a few blocks in the cache but the cost of reading the extra block from disk would have been low due to the sequential nature of the scan.
+
+
+For the SSD, IO performance is much more similar among the different strategies. Note that PBM-sampling also gets lower IO throughput, but in this case the IO latency (not shown) is also lower. The reduced throughput is is likely explained by the higher hit rate -- it is simply reading less data and the disk is not fully utilized. PBM-sampling with frequency statistics is a nearly identical strategy but achieves lower hit rate since frequency statistics are not useful for this workload, and has higher IO throughput similar to the other strategies.
+
+
+
+\section{Unlimited system memory}
+In contrast to experiments with an HDD, we can also run the experiments without limiting the available system memory, so the whole 10 GiB database fits in main memory and is cached by the OS. This has the effect that there is almost no penalty for a PostgreSQL cache miss, so the caching policy does not impact the run-time, but we can still compare the hit rate.
+
+The interesting thing to note compared to the SSD and HDD experiments, is that the hit rate graph flattens out very quickly with every policy and compared to on an SSD where the hit rate increases with parallelism well beyond what is achieved with no cache-miss penalty. Our current hypothesis for why this happens is that the higher penalty for a miss causes scans to automatically synchronize, as discussed in Section \ref{sec:experiment_micro_parallelism}. % When there are two scans on the same relation, the scan that is ahead will be slowed down by cache misses. The scan that is behind may have fewer misses, as all the scan that is ahead has recently read the same data and it is more likely to be in the cache. In this scenario the higher hit rate of the second scan will cause it to scan faster and reduce the gap between the two scans, causing its hit rate to increase even more because there is less time for the data to be evicted between the first and second scan. So the buffer miss penalty causes scans to synchronize increasing the hit rate, while with the whole dataset in-memory the scans are more uniformly distributed so the hit rate is lower.
+With the whole data set in-memory, scans do not synchronize in this way so accesses are more uniformly distributed and the hit rate stays low.
+
+
+% \begin{figure}[ht]
+%     \centering
+%     \includegraphics[width=0.33\textwidth]{figures/hdd_ram_micro/Time vs parallelism - RAM Sequential Scan Microbenchmarks.tikz}
+%     \caption{RAM runtime}
+%     \label{fig:ram_time}
+% \end{figure}
+% \begin{figure}[ht]
+%     \centering
+%     \includegraphics[width=0.33\textwidth]{figures/hdd_ram_micro/IO volume vs parallelism - RAM Sequential Scan Microbenchmarks.tikz}
+%     \caption{RAM IO volume}
+%     \label{fig:ram_iovol}
+% \end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.33\textwidth]{figures/hdd_ram_micro/Hit rate vs parallelism - RAM Sequential Scan Microbenchmarks.tikz}
+    \caption{RAM Hit Rate}
+    \label{fig:ram_hitrate}
+\end{figure}
