@@ -1,7 +1,8 @@
 
 \chapter{Conclusions}
+\label{ch:conclusion}
 
-This work has introduced sampling-based predictive buffer management, with an openly available implementation in PostgreSQL.\footnote{todo: make the code available and include a link somewhere?} This database cache management policy tracks statistics about active queries to estimate future accesses, and uses this information to mimic MIN~\cite{beladyMIN}, the optimal cache replacement algorithm.
+This work has introduced sampling-based predictive buffer management, with an openly available implementation in PostgreSQL. This database cache management policy tracks statistics about active queries to estimate future accesses, and uses this information to mimic MIN~\cite{beladyMIN}, the optimal cache replacement algorithm.
 
 Using sampling for PBM provides several advantages over \cite{pbm}, a previous predictive approach that uses a centralized data structure to track access time estimates and make caching decisions. The sampling-based approach is simpler, can be extended and tuned more easily, and generally achieves better results due to an improved strategy for selecting the best eviction candidate based on the statistics.
 

@@ -54,58 +54,6 @@
 % In a two-sided printing style, it also makes the next page a right-hand (odd-numbered) page, producing a blank page if necessary.
 \phantomsection    % allows hyperref to link to the correct page
  
-% % E X A M I N I N G   C O M M I T T E E (Required for Ph.D. theses only)
-% % Remove or comment out the lines below to remove this page
-% \addcontentsline{toc}{chapter}{Examining Committee}
-% \begin{center}\textbf{Examining Committee Membership}\end{center}
-%   \noindent
-% The following served on the Examining Committee for this thesis. The decision of the Examining Committee is by majority vote.
-%   \bigskip
-  
-% %   \noindent
-% % \begin{tabbing}
-% % Internal-External Member: \=  \kill % using longest text to define tab length
-% % External Examiner: \>  Bruce Bruce \\ 
-% % \> Professor, Dept. of Philosophy of Zoology, University of Wallamaloo \\
-% % \end{tabbing} 
-% %   \bigskip
-  
-%   \noindent
-% \begin{tabbing}
-% Internal-External Member: \=  \kill % using longest text to define tab length
-% Supervisor(s): \> Khuzaima Daudjee \\
-% \> Professor, Cheriton School of Computer Science,\\ \> University of Waterloo \\
-% \end{tabbing}
-%   \bigskip
-
-% TODO who else? or remove -- seems to be PhD only?
-
-  
-% %   \noindent
-% %   \begin{tabbing}
-% % Internal-External Member: \=  \kill % using longest text to define tab length
-% % Internal Member: \> Pamela Python \\
-% % \> Professor, Dept. of Zoology, University of Waterloo \\
-% % \end{tabbing}
-% %   \bigskip
-  
-% %   \noindent
-% % \begin{tabbing}
-% % Internal-External Member: \=  \kill % using longest text to define tab length
-% % Internal-External Member: \> Meta Meta \\
-% % \> Professor, Dept. of Philosophy, University of Waterloo \\
-% % \end{tabbing}
-% %   \bigskip
-  
-% %   \noindent
-% % \begin{tabbing}
-% % Internal-External Member: \=  \kill % using longest text to define tab length
-% % Other Member(s): \> Leeping Fang \\
-% % \> Professor, Dept. of Fine Art, University of Waterloo \\
-% % \end{tabbing}
-
-% \cleardoublepage
-% \phantomsection    % allows hyperref to link to the correct page
 
 % D E C L A R A T I O N   P A G E
 % -------------------------------
@@ -135,12 +83,10 @@ I understand that my thesis may be made electronically available to the public.
 
 
 
-This thesis presents a database buffer caching policy which uses information about long-running scans to estimate future accesses. These estimates are used to approximate the optimal caching policy, which requires knowledge about future accesses. The buffer caching policy must be efficient with low CPU overhead, which we achieve with sampling: buffer eviction considers only a small random sample of buffers and access time estimates are used to select among the sample. This design is easily tuned by adjusting the sample size, and easily modified to improve the access time estimates.
+This thesis presents a database buffer caching policy that uses information about long-running scans to estimate future accesses. These estimates are used to approximate the optimal caching policy, which requires knowledge about future accesses. The buffer caching policy must be efficient with low CPU overhead, which is achieved with sampling: buffer eviction considers only a small random sample of buffers and access time estimates are used to select among the sample. This design is easily tuned by adjusting the sample size, and easily modified to improve the access time estimates and expand the set of workload types that can be predicted effectively.
 
-This approach is implemented in PostgreSQL and evaluated on a series of experiments based on TPC-H. Based on the experiments, this approach works very well for workloads with mainly sequential scan and is competitive with standard approaches for workloads using a mix of sequential scans and index accesses.
+This approach is implemented in PostgreSQL and evaluated on a series of experiments based on TPC-H. Based on the experiments, this approach works very well for workloads with mainly sequential scans and is competitive with standard approaches for workloads using a mix of sequential scans and index accesses.
 
-
-TODO expand the abstract?
 
 \cleardoublepage
 \phantomsection    % allows hyperref to link to the correct page
@@ -150,9 +96,12 @@ TODO expand the abstract?
 \addcontentsline{toc}{chapter}{Acknowledgements}
 \begin{center}\textbf{Acknowledgements}\end{center}
 
-TODO
+Many thanks to my supervisor, professor Khuzaima Daudjee, for advice, feedback, and insight throughout my graduate studies, without which this thesis would not have been possible.
 
-I would like to thank all the little people who made this thesis possible.
+Thanks also to the thesis readers, professor Sujaya Maiyya and professor Tamer Ozsu, for their time and feedback.
+
+
+
 \cleardoublepage
 \phantomsection    % allows hyperref to link to the correct page
 

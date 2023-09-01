@@ -82,8 +82,8 @@
 \usepackage{amsmath,amssymb,amstext} % Lots of math symbols and environments
 \usepackage[pdftex]{graphicx} % For including graphics N.B. pdftex graphics driver 
 
-% TODO PACKAGES:
-\usepackage{natbib}
+% PACKAGES:
+\usepackage[square,comma,numbers,sort]{natbib}
 \usepackage{algorithm2e}
 \usepackage{amsthm}
 \usepackage{float}
@@ -113,6 +113,7 @@
 \usepackage[pdftex,pagebackref=false]{hyperref} % with basic options
 %\usepackage[pdftex,pagebackref=true]{hyperref}
 		% N.B. pagebackref=true provides links back from the References to the body text. This can cause trouble for printing.
+\usepackage{cleveref}  % must be after hyperref apparently
 \hypersetup{
     plainpages=false,       % needed if Roman numbers in frontpages
     unicode=false,          % non-Latin characters in Acrobat’s bookmarks
@@ -226,6 +227,7 @@
 
 % The following statement selects the style to use for references.  
 % It controls the sort order of the entries in the bibliography and also the formatting for the in-text labels.
+% \bibliographystyle{plain}
 \bibliographystyle{plainnat}
 % This specifies the location of the file containing the bibliographic information.  
 % It assumes you're using BibTeX to manage your references (if not, why not?).
