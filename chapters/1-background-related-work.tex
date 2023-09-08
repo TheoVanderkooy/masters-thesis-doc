@@ -13,7 +13,7 @@ Belady's MIN algorithm~\cite{beladyMIN} is known to be an optimal caching policy
 
 Historically, databases used very simple heuristic strategies for buffer cache replacement such as \gls{lru}, \gls{lfu}, \gls{fifo}, clock~\cite{gclock}, \gls{lrd}, or some variant of one of these strategies.~\cite{effelsberg1984principles,hull1988buffer,feng1998study} Such strategies are still commonly used as they are simple to implement with low CPU overhead, and tend to be effective for common database access patterns.
 
-Some more recent work on database cache management focuses on adapting the buffer cache to work well with other new technologies and advancements in other parts of the database such as \cite{teng2017lsbm}, which addresses LSM-tree compaction leading to cache invalidation and extra avoidable storage access. Several works seek to adapt the existing heuristic approaches to perform better on flash drives, taking into account the distinct characteristics of solid-state storage and in particular the increased cost of writes compared to reads. \cite{ou2009cfdc,lv2011operation,jiang2015cost,hu2010pud,jin2012ad}
+Some more recent work on database cache management focuses on adapting the buffer cache to work well with other new technologies and advancements \cite{teng2017lsbm}, such as LSM-tree compaction leading to cache invalidation and extra avoidable storage access. Several works seek to adapt the existing heuristic approaches to perform better on flash drives, taking into account the distinct characteristics of solid-state storage and in particular the increased cost of writes compared to reads. \cite{ou2009cfdc,lv2011operation,jiang2015cost,hu2010pud,jin2012ad}
 
 
 \section{Related Work Using Prediction}
@@ -50,7 +50,7 @@ When a scan starts, based on the information in the query, the scan registers it
 
 As the scan progresses, it tracks its current position and speed, which together are used to estimate when it will reach a particular data block assuming it will maintain the current scan speed.
 
-\begin{figure}
+\begin{figure}[htb]
     \centering
     \includegraphics[width=1\columnwidth]{figures/Diagrams/diagrams-approx-PQ.pdf}
     \caption{Structure of the approximate priority queue used by PBM-PQ. The time range associated with each bucket increases exponentially for later buckets, and $\Delta$ is the time range of the first buckets.}

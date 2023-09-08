@@ -42,9 +42,9 @@ This chapter presents an alternative buffer management strategy based on samplin
 \label{alg:sampling}
 \end{algorithm}
 
-The sampling-based approach, referred to in this thesis as PBM-sampling, tracks the progress of scans in the same way as PBM-PQ: scans are registered and a list of relevant scans is kept for each block. The change from PQ-based to sampling-based PBM is in how it uses the estimated access times to select what to evict. Rather than use a data structure to rank candidates, the sampling-based strategy selects a random group of candidates and use the estimated access times to choose the victim from the selected sample.
+The sampling-based approach, referred to in this thesis as PBM-sampling, tracks the progress of scans in the same way as PBM-PQ: scans are registered and a list of relevant scans is kept for each block. The change from PQ-based to sampling-based \gls{pbm} is in how it uses the estimated access times to select what to evict. Rather than use a data structure to rank candidates, the sampling-based strategy selects a random group of candidates and use the estimated access times to choose the victim from the selected sample.
 
-Pseudocode for choosing which block to evict is shown in Algorithm~\ref{alg:sampling}. First, the system chooses $N$ random blocks from the cache that are not currently in use, where $N$ is a configurable constant.\footnote{$N=10$ for most experiments in the evaluation.} A block cannot be evicted if it is currently in use, so suck blocks must be skipped and something else is selected. The sampling-based approach estimates the next access time for each of the $N$ blocks in the same way as PBM-PQ, by estimating when each active scan will reach the block and considering the scan that is predicted to reach it first. Then from the $N$ sampled blocks, the one with highest estimated next-access-time is returned.
+Pseudocode for choosing which block to evict is shown in Algorithm~\ref{alg:sampling}. First, the system chooses $N$ random blocks from the cache that are not currently in use, where $N$ is a configurable constant.\footnote{$N=10$ for most experiments in the evaluation.} A block cannot be evicted if it is currently in use, so such blocks must be skipped and something else is selected. The sampling-based approach estimates the next access time for each of the $N$ blocks in the same way as PBM-PQ, by estimating when each active scan will reach the block and considering the scan that is predicted to reach it first. Then from the $N$ sampled blocks, the one with highest estimated next-access-time is returned.
 
 Note that it is possible for the selected block to not be evictable anymore if a concurrent query either already evicted it or started using it. The implementation avoids locking the blocks when they are initially selected to minimize the possible impact on concurrent queries while calculating the access time estimates. To handle this race condition, there is a check at the end for whether the chosen block is still a valid candidate and another block is selected if it is not valid anymore.
 
@@ -96,8 +96,9 @@ Suppose that $B$ is MIN-optimal so $t^\text{evict}_B < t^\text{access}_B$. As pr
 Thus it is impossible for a MIN-optimal cache item to have earlier next-access-time than a non-MIN-optimal cache item.
 \end{proof}
 
+% [revise next para as it reads oddly: Then...  Then... ??]
 
-Then at any time there are potentially many cache items that are optimal to evict, and some subset of optimal choices have next access times larger than all the other cache items. Then there is some cut-off time dividing these optimal-to-evict cache items from the rest -- depicted in Figure \ref{fig:belady-boundary} -- which if it were known would be very helpful in identifying good eviction candidates. This is similar to the ``Belady boundary'' described by \citet{relaxedBelady} as the minimum time-to-next-access of all items evicted by MIN. Unfortunately this cut-off time is not known in advance, but it is very useful to know that cache items with later next-access-time have a higher likelihood of being optimal eviction choices. 
+Then at any time there are potentially many cache items that are optimal to evict, and some subset of optimal choices have next access times larger than all the other cache items. Based on this, there must be some cut-off time dividing these optimal-to-evict cache items from the rest -- depicted in Figure \ref{fig:belady-boundary} -- which if it were known would be very helpful in identifying good eviction candidates. This is similar to the ``Belady boundary'' described by \citet{relaxedBelady} as the minimum time-to-next-access of all items evicted by MIN. Unfortunately this cut-off time is not known in advance, but it is very useful to know that cache items with later next-access-time have a higher likelihood of being optimal eviction choices. 
 
 Note also that even amongst items that MIN would not evict before their next access, it is still better to evict the one with larger access time. This is proven as part of the proof that MIN is optimal.~\cite{MINOptimality} % in Lemma 1 of the appendix
 
@@ -153,12 +154,12 @@ An interesting observation is that the generalized policy will have its cache mi
 
 To maximize performance, the buffer management policy should maximize the hit rate of block accesses while minimizing CPU overhead. This includes minimizing the time to choose what to evict, time to maintain metadata, and limit time holding locks so that threads can allocate cache blocks concurrently without waiting for each other.
 
-PBM-PQ~\cite{pbm} trades off prediction accuracy by using the approximate priority queue to avoid the high CPU overhead of maintaining an exact priority queue, and allowing estimates to become stale. Sampling-based PBM benefits from removing the central priority-queue data structure, allowing it to achieve better hit rate without additional CPU overhead.
+PBM-PQ~\cite{pbm} trades off prediction accuracy by using the approximate priority queue to avoid the high CPU overhead of maintaining an exact priority queue, and allowing estimates to become stale. Sampling-based \gls{pbm} benefits from removing the central priority-queue data structure, allowing it to achieve better hit rate without additional CPU overhead.
 
 
 \textbf{Simplicity}: The most obvious advantage after implementing both policies is increased simplicity -- sampling removes the entire approximate priority queue data structure along with the maintenance required to shift the buckets periodically and ensure block groups are in the correct bucket as blocks move in and out of the cache or their registered scan set changes.
 
-With sampling, all of this is removed and the eviction logic changes, with almost nothing added. In the PostgreSQL implementations, PBM-sampling had about 600 fewer lines of code than PBM-PQ.
+With sampling, all of this is removed and the eviction logic changes, with almost nothing added. In the PostgreSQL implementations, PBM-sampling has about 600 fewer lines of code than PBM-PQ.
 
 
 \textbf{Freshness of access-time estimates}: The sampling-based approach computes next-access-time estimates as late as possible -- only when a block is being considered for immediate eviction -- so the estimates it uses are based on the most up-to-date information available.
