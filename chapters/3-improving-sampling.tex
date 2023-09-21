@@ -26,7 +26,7 @@ With separate single evictions, it is possible that one sample may not contain a
         \caption{Bulk-eviction considers the same samples, with a better set of eviction choices.}
     \end{subfigure}
     
-    \caption{Bulk eviction example with $N=k=3$. The colour identifies MIN-optimal eviction candidates as in Figure~\ref{fig:belady-boundary}, and items to the right of the vertical bars are chosen for replacement.}
+    \caption[Bulk eviction example]{Bulk eviction example with $N=k=3$. The colour identifies MIN-optimal eviction candidates as in Figure~\ref{fig:belady-boundary}, and items to the right of the vertical bars are chosen for replacement.}
     \label{fig:multi-eviction}
 \end{figure}
 
@@ -41,7 +41,32 @@ With this technique the total number of samples chosen -- and therefore next-acc
 
 \citet{pbm} mention, but do not implement, an extension to PBM-PQ using frequency statistics to prioritize cache blocks that are not requested by any active sequential scans. This is not expected to help for workloads with only long-running sequential scans, but could be useful for smaller tables and index lookups. The method proposed by \citet{pbm} is to store a few recent access times for each block, and store non-requested blocks in a separate set of buckets corresponding to the inter-access time. The second set of buckets ages over time, equivalently increasing the estimated time-to-next-access of these blocks.
 
-This thesis pursues this proposal by developing a similar idea to track frequency statistics in PBM-sampling that is much easier to implement as discussed in Chapter~\ref{sec:sampling-advantages}. In PBM-sampling, the system tracks an exponentially weighted moving average of the time between accesses (inter-access time) for each block in the cache. With sampling no special data structures are needed to handle this scenario, just some extra fields in the existing buffer headers. If the time-since-last-access is less than the average inter-access time, the frequency-based time-to-next-access is estimated to be the average inter-access time. Once the time-since-last-access exceeds the average inter-access time, the time-since-last-access is used as the estimated time-to-next-access instead to decrease the relative priority of these blocks over time. 
+This thesis pursues this proposal by developing a similar idea to track frequency statistics in PBM-sampling that is much easier to implement as discussed in Chapter~\ref{sec:sampling-advantages}. In PBM-sampling, the system tracks an exponentially weighted moving average of the time between accesses (inter-access time) for each block in the cache. With sampling no special data structures are needed to handle this scenario, just some extra fields in the existing buffer headers. \textcolor{blue}{As depicted in \Cref{alg:sampling_freq}, i}f the time-since-last-access is less than the average inter-access time, the frequency-based time-to-next-access is estimated to be the average inter-access time. Once the time-since-last-access exceeds the average inter-access time, the time-since-last-access is used as the estimated time-to-next-access instead to decrease the relative priority of these blocks over time. 
+
+\begin{algorithm}[]
+\SetAlgoLined
+\SetNoFillComment
+\DontPrintSemicolon
+\SetKw{KwReturn}{return}
+\SetKwFunction{FFreqNextAccess}{EstNextAccessFreq}
+\SetKwProg{Fn}{Function}{:}{}
+
+\Fn{\FFreqNextAccess{blk}}{
+    t\_since\_access $\gets \text{now} - \text{blk.last\_access}$\;
+    \uIf{blk.num\_access $\le 1$}{
+        \tcc{fall-back to LRU}
+        \KwReturn $\infty$\;
+    }\uElseIf{$\text{blk}.\text{avg\_inter\_access} < \text{t\_since\_access}$}{
+        \KwReturn blk.avg\_inter\_access\;
+    }\Else{
+        \KwReturn t\_since\_access\;
+    }
+}\;
+
+\caption{\textcolor{blue}{Next-access-time estimate based on recent inter-access times.}}
+\label{alg:sampling_freq}
+
+\end{algorithm}
 
 If a block is also registered by a sequential scan, the resulting next-access estimate is the minimum of the frequency-based and registered-scan-based estimates.
 
@@ -63,10 +88,16 @@ Unfortunately, index scans do not generally have a predictable order for accessi
 
 In PostgreSQL, any index can be scanned as a bitmap scan. In this case, the system first reads only the index and constructs a bitmap indicating which tuples might match the query predicate. The table is then scanned in sequential order, using the bitmap to skip blocks that do not contain any matching tuples. Bitmap scans can be selected by the query planner for any type of index, but certain index types can only be used with bitmap scans. Most notably, PostgreSQL's block range indexes (BRIN) always use bitmap scans. BRIN splits the table into ranges of blocks and stores a summary of each range, which can be compared to the query predicate to quickly rule out all tuples from a range. The default form of BRIN is a min-max index, where the summaries store the column's minimum and maximum value for each range of blocks, and it also supports bloom filter summaries and a few other strategies for specific data types.
 
-Bitmap scans are the best-case for index scans with predictive buffer management: the order is predictable and the set of blocks to be retrieved is known early, after constructing the bitmap. It is easy to support bitmap scans in both sampling-based and priority-queue based \gls{pbm} as the only necessary change is to how the scan is initially registered. The \gls{pbm} registration happens after the scan operator constructs the bitmap, and the bitmap itself is used to determine which blocks will be scanned and when, but the rest of the implementation is the same as for sequential scans.
+Bitmap scans are the best-case for index scans with predictive buffer management: the order is predictable and the set of blocks to be retrieved is known early, after constructing the bitmap. It is easy to support bitmap scans in both sampling-based and priority-queue based \gls{pbm} as the only necessary change is to how the scan is initially registered. The \gls{pbm} registration happens after the scan operator constructs the bitmap, and the bitmap itself is used to determine which blocks will be scanned and when, but the rest of the implementation is the same as for sequential scans. \textcolor{blue}{This is depicted in \Cref{fig:bitmap_scan_tracking}.}
 
 The original implementation of PBM-PQ supports automatically created min-max indexes in a similar way~\cite{pbm}, but PostgreSQL's bitmap scans are more general and apply to more types of indexes.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=1\columnwidth]{figures/Diagrams/bitmap_scan_registered_progress.png}
+    \caption[PBM bitmap scan tracking]{\textcolor{blue}{Bitmap scans are handled similar to sequential scans in \Cref{fig:scan_tracking}. After the bitmap is constructed from the index, the bitmap is used to register only blocks relevant to the scan. Time-to-next-access is estimated for each block in the same way as with sequential scans.}}
+    \label{fig:bitmap_scan_tracking}
+\end{figure}
 
 \subsection{Trailing index scans}
 \label{sec:idx_trailing}

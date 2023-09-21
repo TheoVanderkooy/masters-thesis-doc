@@ -20,10 +20,11 @@ This chapter presents an alternative buffer management strategy based on samplin
        t $\gets$ \FEstNextAccess{blk}\;
        samples[$i$] $\gets$ (blk, t)\;
     }
-    sort(samples) descending by estimated access times\;
+    % sort(samples) descending by estimated access times\;
     \For{$i\gets 1$ \KwTo $N$}{
-       \If{samples[$i$] can be evicted}{
-          \KwReturn samples[$i$]\;
+       $s \gets$ sample with next-highest estimated access time\;
+       \If{$s$ can be evicted}{
+          \KwReturn $s$\;
        }
     }
     \KwReturn random unused block\;
@@ -74,7 +75,7 @@ Considering the above argument for MIN specifically instead of any optimal polic
 \begin{figure}
     \centering
     \includegraphics{figures/Diagrams/diagrams-belady-boundary.pdf}
-    \caption{Cache items evicted by MIN before next-access have later next-access time than items that will be read from the cache before eviction.}
+    \caption[Higher next-access-time for MIN-optimal cache items]{Cache items evicted by MIN before next-access have later next-access time than items that will be read from the cache before eviction.}
     \label{fig:belady-boundary}
 \end{figure}
 
@@ -125,7 +126,7 @@ Thus, evicting the item with highest next-access-time from a sample makes sense 
     \addlegendentry{$N=5$};
     \end{axis}
     \end{tikzpicture}
-    \caption{Probability of an optimal eviction decision with $N$ samples}
+    \caption[PBM-sampling probability of optimal decision]{Probability of an optimal eviction decision with $N$ samples}
     \label{plot:P-opt-eviction}
 \end{figure}
 

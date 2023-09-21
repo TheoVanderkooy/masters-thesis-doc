@@ -45,18 +45,24 @@ Prior work that takes inspiration from MIN most related to this thesis are \cite
 \section{Summary of Priority-Queue Based Predictive Buffer Management}
 \label{sec:pbm-pq_summary}
 
-Prior approach \cite{pbm} tracks information about active sequential scans in the database to predict when different parts of the data will be accessed next.
-When a scan starts, based on the information in the query, the scan registers itself indicating the set of blocks it will eventually access and when it will access those blocks. For each block, the system stores a list of the scans that will access that block. When a scan reaches a particular block it removes itself from that block's list of scans since the same sequential scan will not return to the same block.
+Prior approach \cite{pbm} tracks information about active sequential scans in the database to predict when different parts of the data will be accessed next. \textcolor{blue}{\Cref{fig:scan_tracking} shows an example of how my implementation in PostgreSQL tracks this information.} When a scan starts, based on the information in the query, the scan registers itself indicating the set of blocks it will eventually access and when it will access those blocks. For each block, the system stores a list of the scans that will access that block. When a scan reaches a particular block it removes itself from that block's list of scans since the same sequential scan will not return to the same block.
 
 As the scan progresses, it tracks its current position and speed, which together are used to estimate when it will reach a particular data block assuming it will maintain the current scan speed.
-
-\begin{figure}[htb]
-    \centering
-    \includegraphics[width=1\columnwidth]{figures/Diagrams/diagrams-approx-PQ.pdf}
-    \caption{Structure of the approximate priority queue used by PBM-PQ. The time range associated with each bucket increases exponentially for later buckets, and $\Delta$ is the time range of the first buckets.}
-    \label{fig:approx-pq}
-\end{figure}
 
 As mentioned previously, making the actual decisions about what to evict must be done quickly. In the approach from \cite{pbm} that will be referred to as PBM-PQ in this thesis, the authors found that storing the buffers in a true priority queue was too slow and instead developed an approximate priority queue with $O(1)$ insertion and removal to alleviate this concern. The approximate priority queue, depicted in Figure \ref{fig:approx-pq}, groups database blocks into a fixed number of buckets based on the estimated time to next access, with buckets further in the future having exponentially wider ranges than buckets to be accessed sooner.
 
 Cached blocks are inserted into the approximate priority queue or moved between buckets in the queue when it is loaded into the cache or when the set of scans that will access it changes, i.e., when a new scan starts or an existing scan has finished processing that block. As time progresses, the priority -- corresponding to the time to next access -- of each block decreases, so the buckets are periodically shifted to correspond to earlier time intervals with the earliest bucket being removed. Eviction candidates are chosen from the non-empty bucket furthest in the future, which should have the next-access furthest in the future to mimic MIN.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\columnwidth]{figures/Diagrams/seq_scan_registered_progress.png}
+    \caption[PBM sequential scan tracking]{\textcolor{blue}{How PBM tracks sequential scans. A list of relevant scans is tracked for each block in the database. When a scan starts, it adds itself to the list for each relevant block, and removes itself after the scan has passed that block. Time of access for each scan is estimated based on the scan speed and the distance from the scan to the block, based on block position and current scan position. Then the estimated next-access-time of the block is the minimum access time over the list of scans.}}
+    \label{fig:scan_tracking}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\columnwidth]{figures/Diagrams/diagrams-approx-PQ.pdf}
+    \caption[PBM-PQ's approximate priority queue]{Structure of the approximate priority queue used by PBM-PQ. The time range associated with each bucket increases exponentially for later buckets, and $\Delta$ is the time range of the first buckets.}
+    \label{fig:approx-pq}
+\end{figure}

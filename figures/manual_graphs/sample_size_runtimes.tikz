@@ -1,0 +1,47 @@
+\begin{tikzpicture}
+
+\definecolor{crimson2143940}{RGB}{214,39,40}
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkorange25512714}{RGB}{255,127,14}
+\definecolor{forestgreen4416044}{RGB}{44,160,44}
+\definecolor{lightgray204}{RGB}{204,204,204}
+\definecolor{steelblue31119180}{RGB}{31,119,180}
+
+
+
+\begin{axis}[
+    ybar,
+    bar width=15pt,
+    tick align=outside,
+    tick pos=left,
+    xlabel=Sample size,
+    ylabel=Time (min),
+    % title={Comparing sample size runtimes},
+    x grid style={darkgray176},
+    xmin=-0.59, xmax=5.59,
+    xtick style={color=black},
+    xtick={0,1,2,3,4,5},
+    xticklabels={1, 2, 5, 10, 20, 100},
+    y grid style={darkgray176},
+    ymin=0,
+    ytick style={color=black}
+]
+
+
+\addplot+ [semithick, black, fill=steelblue31119180,
+    error bars/.cd,
+    y dir=both,
+    y explicit,
+] coordinates{
+    (0, 18.90334453535) +- (0, 0.12668490585467607)
+    (1, 16.79667407286667) +- (0, 0.21801577191995197)
+    (2, 15.40001151234667) +- (0, 0.16720547882084244)
+    (3, 14.773343200766666) +- (0, 0.21109601854221474)
+    (4, 14.21001421428) +- (0, 0.3009225155291935)
+    (5, 13.906673886594998) +- (0, 0.2413411132445323)
+};
+
+
+
+\end{axis}
+\end{tikzpicture}

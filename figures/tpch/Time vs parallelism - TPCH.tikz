@@ -19,8 +19,6 @@ legend style={
   text opacity=1,
   at={(0.03,0.97)},
   anchor=north west,
-  % at={(0.97,0.03)},
-  % anchor=south east,
   draw=lightgray204
 },
 tick align=outside,
@@ -145,92 +143,38 @@ table {%
 32 195.814904207203
 };
 \path [draw=forestgreen4416044, line width=0.3px]
-(axis cs:2,12.7258103264702)
---(axis cs:2,15.3242047505382);
-
-\path [draw=forestgreen4416044, line width=0.3px]
-(axis cs:4,23.5331598346076)
---(axis cs:4,24.7251887029507);
-
-\path [draw=forestgreen4416044, line width=0.3px]
-(axis cs:6,36.2065591046344)
---(axis cs:6,39.1517949019739);
-
-\path [draw=forestgreen4416044, line width=0.3px]
-(axis cs:8,47.8963959889153)
---(axis cs:8,49.161957205643);
-
-\path [draw=forestgreen4416044, line width=0.3px]
-(axis cs:12,72.0569401054796)
---(axis cs:12,75.3347420429204);
-
-\path [draw=forestgreen4416044, line width=0.3px]
-(axis cs:16,97.1823661515872)
---(axis cs:16,101.167657790746);
-
-\path [draw=forestgreen4416044, line width=0.3px]
-(axis cs:24,150.586186945417)
---(axis cs:24,154.372174941833);
-
-\path [draw=forestgreen4416044, line width=0.3px]
-(axis cs:32,206.919016578826)
---(axis cs:32,210.306001310366);
-
-\addplot [line width=0.3px, forestgreen4416044, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
-table {%
-2 12.7258103264702
-4 23.5331598346076
-6 36.2065591046344
-8 47.8963959889153
-12 72.0569401054796
-16 97.1823661515872
-24 150.586186945417
-32 206.919016578826
-};
-\addplot [line width=0.3px, forestgreen4416044, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
-table {%
-2 15.3242047505382
-4 24.7251887029507
-6 39.1517949019739
-8 49.161957205643
-12 75.3347420429204
-16 101.167657790746
-24 154.372174941833
-32 210.306001310366
-};
-\path [draw=crimson2143940, line width=0.3px]
 (axis cs:2,12.3589599357959)
 --(axis cs:2,14.9343952011574);
 
-\path [draw=crimson2143940, line width=0.3px]
+\path [draw=forestgreen4416044, line width=0.3px]
 (axis cs:4,22.6950124487389)
 --(axis cs:4,24.7516748596678);
 
-\path [draw=crimson2143940, line width=0.3px]
+\path [draw=forestgreen4416044, line width=0.3px]
 (axis cs:6,34.7677915765995)
 --(axis cs:6,37.0855627974005);
 
-\path [draw=crimson2143940, line width=0.3px]
+\path [draw=forestgreen4416044, line width=0.3px]
 (axis cs:8,44.0555100065627)
 --(axis cs:8,46.6244975145506);
 
-\path [draw=crimson2143940, line width=0.3px]
+\path [draw=forestgreen4416044, line width=0.3px]
 (axis cs:12,66.1070717225132)
 --(axis cs:12,70.6996095049335);
 
-\path [draw=crimson2143940, line width=0.3px]
+\path [draw=forestgreen4416044, line width=0.3px]
 (axis cs:16,87.8265842351348)
 --(axis cs:16,92.9334418577052);
 
-\path [draw=crimson2143940, line width=0.3px]
+\path [draw=forestgreen4416044, line width=0.3px]
 (axis cs:24,137.126067861201)
 --(axis cs:24,141.833952331813);
 
-\path [draw=crimson2143940, line width=0.3px]
+\path [draw=forestgreen4416044, line width=0.3px]
 (axis cs:32,184.604750732265)
 --(axis cs:32,190.768609214135);
 
-\addplot [line width=0.3px, crimson2143940, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+\addplot [line width=0.3px, forestgreen4416044, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
 table {%
 2 12.3589599357959
 4 22.6950124487389
@@ -241,7 +185,7 @@ table {%
 24 137.126067861201
 32 184.604750732265
 };
-\addplot [line width=0.3px, crimson2143940, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+\addplot [line width=0.3px, forestgreen4416044, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
 table {%
 2 14.9343952011574
 4 24.7516748596678
@@ -252,39 +196,39 @@ table {%
 24 141.833952331813
 32 190.768609214135
 };
-\path [draw=mediumpurple148103189, line width=0.3px]
+\path [draw=crimson2143940, line width=0.3px]
 (axis cs:2,12.2996051738573)
 --(axis cs:2,13.7870816556761);
 
-\path [draw=mediumpurple148103189, line width=0.3px]
+\path [draw=crimson2143940, line width=0.3px]
 (axis cs:4,19.5224523540132)
 --(axis cs:4,21.4842323901268);
 
-\path [draw=mediumpurple148103189, line width=0.3px]
+\path [draw=crimson2143940, line width=0.3px]
 (axis cs:6,30.0466749534429)
 --(axis cs:6,32.6266710724505);
 
-\path [draw=mediumpurple148103189, line width=0.3px]
+\path [draw=crimson2143940, line width=0.3px]
 (axis cs:8,38.5220143201994)
 --(axis cs:8,41.0846728958605);
 
-\path [draw=mediumpurple148103189, line width=0.3px]
+\path [draw=crimson2143940, line width=0.3px]
 (axis cs:12,58.0803255823505)
 --(axis cs:12,61.1463656332562);
 
-\path [draw=mediumpurple148103189, line width=0.3px]
+\path [draw=crimson2143940, line width=0.3px]
 (axis cs:16,76.2055412355419)
 --(axis cs:16,81.6078068837648);
 
-\path [draw=mediumpurple148103189, line width=0.3px]
+\path [draw=crimson2143940, line width=0.3px]
 (axis cs:24,120.961792147341)
 --(axis cs:24,126.264891646726);
 
-\path [draw=mediumpurple148103189, line width=0.3px]
+\path [draw=crimson2143940, line width=0.3px]
 (axis cs:32,162.190065631355)
 --(axis cs:32,171.069950425298);
 
-\addplot [line width=0.3px, mediumpurple148103189, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+\addplot [line width=0.3px, crimson2143940, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
 table {%
 2 12.2996051738573
 4 19.5224523540132
@@ -295,7 +239,7 @@ table {%
 24 120.961792147341
 32 162.190065631355
 };
-\addplot [line width=0.3px, mediumpurple148103189, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+\addplot [line width=0.3px, crimson2143940, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
 table {%
 2 13.7870816556761
 4 21.4842323901268
@@ -306,39 +250,39 @@ table {%
 24 126.264891646726
 32 171.069950425298
 };
-\path [draw=sienna1408675, line width=0.3px]
+\path [draw=mediumpurple148103189, line width=0.3px]
 (axis cs:2,12.3490953175308)
 --(axis cs:2,14.1842568852492);
 
-\path [draw=sienna1408675, line width=0.3px]
+\path [draw=mediumpurple148103189, line width=0.3px]
 (axis cs:4,20.0505069673714)
 --(axis cs:4,21.3895139294752);
 
-\path [draw=sienna1408675, line width=0.3px]
+\path [draw=mediumpurple148103189, line width=0.3px]
 (axis cs:6,28.9301104684927)
 --(axis cs:6,32.9965765954806);
 
-\path [draw=sienna1408675, line width=0.3px]
+\path [draw=mediumpurple148103189, line width=0.3px]
 (axis cs:8,38.025052997088)
 --(axis cs:8,42.561632063392);
 
-\path [draw=sienna1408675, line width=0.3px]
+\path [draw=mediumpurple148103189, line width=0.3px]
 (axis cs:12,59.8377808679818)
 --(axis cs:12,60.3022418025449);
 
-\path [draw=sienna1408675, line width=0.3px]
+\path [draw=mediumpurple148103189, line width=0.3px]
 (axis cs:16,76.2032227656855)
 --(axis cs:16,82.6367998502279);
 
-\path [draw=sienna1408675, line width=0.3px]
+\path [draw=mediumpurple148103189, line width=0.3px]
 (axis cs:24,118.914308338527)
 --(axis cs:24,125.839043060473);
 
-\path [draw=sienna1408675, line width=0.3px]
+\path [draw=mediumpurple148103189, line width=0.3px]
 (axis cs:32,161.747388186994)
 --(axis cs:32,167.445961514779);
 
-\addplot [line width=0.3px, sienna1408675, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+\addplot [line width=0.3px, mediumpurple148103189, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
 table {%
 2 12.3490953175308
 4 20.0505069673714
@@ -349,7 +293,7 @@ table {%
 24 118.914308338527
 32 161.747388186994
 };
-\addplot [line width=0.3px, sienna1408675, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+\addplot [line width=0.3px, mediumpurple148103189, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
 table {%
 2 14.1842568852492
 4 21.3895139294752
@@ -359,6 +303,60 @@ table {%
 16 82.6367998502279
 24 125.839043060473
 32 167.445961514779
+};
+\path [draw=sienna1408675, line width=0.3px]
+(axis cs:2,12.7258103264702)
+--(axis cs:2,15.3242047505382);
+
+\path [draw=sienna1408675, line width=0.3px]
+(axis cs:4,23.5331598346076)
+--(axis cs:4,24.7251887029507);
+
+\path [draw=sienna1408675, line width=0.3px]
+(axis cs:6,36.2065591046344)
+--(axis cs:6,39.1517949019739);
+
+\path [draw=sienna1408675, line width=0.3px]
+(axis cs:8,47.8963959889153)
+--(axis cs:8,49.161957205643);
+
+\path [draw=sienna1408675, line width=0.3px]
+(axis cs:12,72.0569401054796)
+--(axis cs:12,75.3347420429204);
+
+\path [draw=sienna1408675, line width=0.3px]
+(axis cs:16,97.1823661515872)
+--(axis cs:16,101.167657790746);
+
+\path [draw=sienna1408675, line width=0.3px]
+(axis cs:24,150.586186945417)
+--(axis cs:24,154.372174941833);
+
+\path [draw=sienna1408675, line width=0.3px]
+(axis cs:32,206.919016578826)
+--(axis cs:32,210.306001310366);
+
+\addplot [line width=0.3px, sienna1408675, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 12.7258103264702
+4 23.5331598346076
+6 36.2065591046344
+8 47.8963959889153
+12 72.0569401054796
+16 97.1823661515872
+24 150.586186945417
+32 206.919016578826
+};
+\addplot [line width=0.3px, sienna1408675, mark=-, mark size=1.5, mark options={solid}, only marks, forget plot]
+table {%
+2 15.3242047505382
+4 24.7251887029507
+6 39.1517949019739
+8 49.161957205643
+12 75.3347420429204
+16 101.167657790746
+24 154.372174941833
+32 210.306001310366
 };
 \addplot [semithick, steelblue31119180]
 table {%
@@ -386,18 +384,6 @@ table {%
 \addlegendentry{PBM-PQ}
 \addplot [semithick, forestgreen4416044]
 table {%
-2 14.0250075385042
-4 24.1291742687792
-6 37.6791770033042
-8 48.5291765972792
-12 73.6958410742
-16 99.1750119711667
-24 152.479180943625
-32 208.612508944596
-};
-\addlegendentry{Random}
-\addplot [semithick, crimson2143940]
-table {%
 2 13.6466775684767
 4 23.7233436542033
 6 35.926677187
@@ -408,7 +394,7 @@ table {%
 32 187.6866799732
 };
 \addlegendentry{PBM-sampling (20)}
-\addplot [semithick, mediumpurple148103189]
+\addplot [semithick, crimson2143940]
 table {%
 2 13.0433434147667
 4 20.50334237207
@@ -420,7 +406,7 @@ table {%
 32 166.630008028327
 };
 \addlegendentry{PBM-sampling (20) + freq}
-\addplot [semithick, sienna1408675]
+\addplot [semithick, mediumpurple148103189]
 table {%
 2 13.26667610139
 4 20.7200104484233
@@ -432,6 +418,18 @@ table {%
 32 164.596674850887
 };
 \addlegendentry{PBM-sampling (20) + freq, idx}
+\addplot [semithick, sienna1408675]
+table {%
+2 14.0250075385042
+4 24.1291742687792
+6 37.6791770033042
+8 48.5291765972792
+12 73.6958410742
+16 99.1750119711667
+24 152.479180943625
+32 208.612508944596
+};
+\addlegendentry{Random}
 \end{axis}
 
 \end{tikzpicture}

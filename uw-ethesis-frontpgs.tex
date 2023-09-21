@@ -85,7 +85,7 @@ I understand that my thesis may be made electronically available to the public.
 
 This thesis presents a database buffer caching policy that uses information about long-running scans to estimate future accesses. These estimates are used to approximate the optimal caching policy, which requires knowledge about future accesses. The buffer caching policy must be efficient with low CPU overhead, which is achieved with sampling: buffer eviction considers only a small random sample of buffers and access time estimates are used to select among the sample. This design is easily tuned by adjusting the sample size, and easily modified to improve the access time estimates and expand the set of workload types that can be predicted effectively.
 
-This approach is implemented in PostgreSQL and evaluated on a series of experiments based on TPC-H. Based on the experiments, this approach works very well for workloads with mainly sequential scans and is competitive with standard approaches for workloads using a mix of sequential scans and index accesses.
+This approach is implemented in PostgreSQL and evaluated on a series of experiments based on TPC-H. Based on the experiments, this approach works very well for workloads with mainly sequential scans\textcolor{blue}{, reducing I/O volume by up to 38\% over PostgreSQL's Clock-sweep implementation,} and is competitive with standard approaches for workloads using a mix of sequential scans and index accesses.
 
 
 \cleardoublepage
