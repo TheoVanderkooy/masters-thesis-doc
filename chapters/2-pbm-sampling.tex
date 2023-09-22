@@ -22,9 +22,11 @@ This chapter presents an alternative buffer management strategy based on samplin
     }
     % sort(samples) descending by estimated access times\;
     \For{$i\gets 1$ \KwTo $N$}{
-       $s \gets$ sample with next-highest estimated access time\;
-       \If{$s$ can be evicted}{
+       $s \gets$ sample with highest estimated access time\;
+       \eIf{$s$ can be evicted}{
           \KwReturn $s$\;
+       }{
+          remove $s$ from list of samples\;
        }
     }
     \KwReturn random unused block\;

@@ -45,7 +45,7 @@ Prior work that takes inspiration from MIN most related to this thesis are \cite
 \section{Summary of Priority-Queue Based Predictive Buffer Management}
 \label{sec:pbm-pq_summary}
 
-Prior approach \cite{pbm} tracks information about active sequential scans in the database to predict when different parts of the data will be accessed next. \textcolor{blue}{\Cref{fig:scan_tracking} shows an example of how my implementation in PostgreSQL tracks this information.} When a scan starts, based on the information in the query, the scan registers itself indicating the set of blocks it will eventually access and when it will access those blocks. For each block, the system stores a list of the scans that will access that block. When a scan reaches a particular block it removes itself from that block's list of scans since the same sequential scan will not return to the same block.
+Prior approach \cite{pbm} tracks information about active sequential scans in the database to predict when different parts of the data will be accessed next. \Cref{fig:scan_tracking} shows an example of how my implementation in PostgreSQL tracks this information. When a scan starts, based on the information in the query, the scan registers itself indicating the set of blocks it will eventually access and when it will access those blocks. For each block, the system stores a list of the scans that will access that block. When a scan reaches a particular block it removes itself from that block's list of scans since the same sequential scan will not return to the same block.
 
 As the scan progresses, it tracks its current position and speed, which together are used to estimate when it will reach a particular data block assuming it will maintain the current scan speed.
 
@@ -56,7 +56,7 @@ Cached blocks are inserted into the approximate priority queue or moved between 
 \begin{figure}
     \centering
     \includegraphics[width=1\columnwidth]{figures/Diagrams/seq_scan_registered_progress.png}
-    \caption[PBM sequential scan tracking]{\textcolor{blue}{How PBM tracks sequential scans. A list of relevant scans is tracked for each block in the database. When a scan starts, it adds itself to the list for each relevant block, and removes itself after the scan has passed that block. Time of access for each scan is estimated based on the scan speed and the distance from the scan to the block, based on block position and current scan position. Then the estimated next-access-time of the block is the minimum access time over the list of scans.}}
+    \caption[PBM sequential scan tracking]{How PBM tracks sequential scans. A list of relevant scans is tracked for each block in the database. When a scan starts, it adds itself to the list for each relevant block, and removes itself after the scan has passed that block. Time of access by each scan is estimated based on the scan speed and the distance from the scan to the block, based on block position and current scan position. Then the estimated next-access-time of the block is the minimum access time over the list of scans.}
     \label{fig:scan_tracking}
 \end{figure}
 

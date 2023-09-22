@@ -187,7 +187,7 @@ Unsurprisingly, all policies perform better with a larger cache, with the I/O vo
     \begin{subfigure}{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figures/manual_graphs/sample_size_runtimes.tikz}
-        \caption{\textcolor{blue}{Run-times at 16 parallelism}}
+        \caption{Run-times at 16 parallelism}
         \label{fig:seq_micro_bar_samplesize}
     \end{subfigure}
     % \begin{subfigure}{0.45\textwidth}
@@ -231,11 +231,11 @@ Unsurprisingly, all policies perform better with a larger cache, with the I/O vo
 
 I repeat the same experiment from Chapter~\ref{sec:experiment_micro_parallelism} but this time compare the impact of sample size and bulk eviction on the performance of PBM-sampling at different levels of parallelism. The ``Random'' policy is PBM-sampling with sample size set to 1.
 
-\Cref{fig:seq_micro_parallel_samplingparams} shows the impact of sample size on the performance of PBM-sampling, varying the number of query streams. For comparing sample size the focus in on hit rate, as this shows the small difference with large sample sizes more clearly than I/O volume. \textcolor{blue}{\Cref{fig:seq_micro_bar_samplesize} shows the run-times as a function of sample size with 16 query streams.}
+\Cref{fig:seq_micro_parallel_samplingparams} shows the impact of sample size on the performance of PBM-sampling, varying the number of query streams. For comparing sample size the focus is on hit rate, as this shows the small difference with large sample sizes more clearly than I/O volume. \Cref{fig:seq_micro_bar_samplesize} shows the run-times as a function of sample size with 16 query streams.
 
-As expected, more samples results in higher hit rate, and therefore reduced I/O volume and run-time. Interestingly, the diminishing returns of increasing the sample size is demonstrated -- increasing from 20 to 100 samples offers a very small improvement to hit rate (and seemingly no improvement with 32 query streams), less than the improvement from 5 to 10. In contrast to the small improvements at large sample sizes, even just 2 samples provides a significant benefit over random selection.
+As expected, more samples results in higher hit rate, and therefore reduced I/O volume and run-time. Interestingly, the diminishing returns of increasing the sample size is demonstrated -- increasing from 20 to 100 samples offers a very small improvement to hit rate (and seemingly no improvement with 32 query streams), less than the improvement from 5 to 10. In contrast to the small improvements at large sample sizes, even just 2 samples provides a significant benefit over random selection. %This diminishing return indicates that, at least for this workload, even a small sample size gets close to the best performance achievable with a large sample size.
 
-From the run-time results in Figure~\ref{fig:seq_micro_parallel_time_samplesize}, increased sample size does lead to better over-all performance, and importantly the extra processing overhead of a larger sample size is negligible -- at least at sample sizes under 100.
+From the run-time results in \Cref{fig:seq_micro_parallel_time_samplesize,fig:seq_micro_bar_samplesize}, increased sample size does lead to better over-all performance, and importantly the extra processing overhead of a larger sample size is negligible -- at least at sample sizes under 100.
 
 Figure \ref{fig:seq_micro_parallel_bulkeviction} shows the impact of bulk eviction described in Chapter~\ref{sec:sampling-bulk-eviction} on the performance of PBM-sampling. The graph compares choosing 100 samples and evicting 10 of them to a few different sample sizes with single eviction. Evicting 10 of 100 samples considers the same average number of samples as a sample size of 10 with single-eviction, but the measurements show it performing similarly to a sample size of 20 on this workload. This shows a definite advantage to bulk eviction, achieving better hit rate without increasing the average number of samples -- which is the main factor determining the CPU overhead of sampling.
 
